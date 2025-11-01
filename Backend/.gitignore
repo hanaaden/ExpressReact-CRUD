@@ -9,12 +9,12 @@ yarn-error.log*
 # Environment files (contains secrets)
 .env
 
-# Build outputs
+# Build outputs (if any)
 dist/
 build/
 
-# Vite cache
-.vite/
+# Nodemon temp files
+.nodemon*
 
 # Editor files
 .idea/
