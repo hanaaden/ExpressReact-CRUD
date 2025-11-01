@@ -6,8 +6,9 @@ function ReactCRUD() {
 
   const handleReq = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/users");
-      setName(response.data.name);
+      const URL = await axios.get("http://localhost:5000/api/users");
+      const res = URL.data
+      setName(res.name);
     } catch (err) {
       console.log("The error is:", err);
     }
