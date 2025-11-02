@@ -3,26 +3,42 @@ import axios from 'axios';
 
 function ReactCRUD() {
   const [name, setName] = useState('');
+  const [job , setJob] = useState('')
 
   const handleReq = async () => {
     try {
       const URL = await axios.get("http://localhost:5000/api/users");
       const res = URL.data
-      setName(res.name);
+       setName(res[1].name);
+      setJob(res[1].Job)
+     
     } catch (err) {
       console.log("The error is:", err);
     }
   };
 
+   const getUsers = async ()=>{
+    axios.post('http://localhost:5000/api/users' ,
+      {
+         name : "Anon",
+         Job : "graphic designer"
+
+      }
+    )
+    
+   }
   useEffect(() => {
     handleReq
+    getUsers
   }, []);
 
   return (
     <>
       <h1>Users</h1>
       <h2>{name}</h2>
+      <h2>{job}</h2>
       <button onClick={handleReq}>Get</button>
+      <button onClick={getUsers}>get All users</button>
     </>
   );
 }
