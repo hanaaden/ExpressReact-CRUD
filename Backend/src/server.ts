@@ -1,11 +1,18 @@
-const express = require("express")
-const cors = require("cors")
+import express, { Request, Response } from "express";
+import cors from "cors";
+
 const app = express()
 
 app.use(cors())
 app.use(express.json())
 
-let users = [
+interface User {
+  id :number,
+  name : string,
+  Job : string
+}
+
+let users : User[] = [
   {
   id: 1,
   name: "John",
@@ -13,7 +20,7 @@ let users = [
 }
 ]
 
-app.get("/api/users", (req, res) => {
+app.get("/api/users", (req : Request, res : Response) => {
   res.json(users)
 })
 
@@ -27,4 +34,5 @@ app.get("/api/users", (req, res) => {
 //   res.status(201).json(newUser)
 // })
 
-app.listen(5000, () => console.log("Server is running on port 5000"))
+// app.listen(5000, () => console.log("Server is running on port 5000"))
+export default app
