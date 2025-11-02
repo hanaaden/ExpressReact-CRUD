@@ -9,27 +9,27 @@ function ReactCRUD() {
     try {
       const URL = await axios.get("http://localhost:5000/api/users");
       const res = URL.data
-       setName(res[1].name);
-      setJob(res[1].Job)
+       setName(res[0].name);
+      setJob(res[0].Job)
      
     } catch (err) {
       console.log("The error is:", err);
     }
   };
 
-   const getUsers = async ()=>{
-    axios.post('http://localhost:5000/api/users' ,
-      {
-         name : "Anon",
-         Job : "graphic designer"
+  //  const getUsers = async ()=>{
+  //   axios.post('http://localhost:5000/api/users' ,
+  //     {
+  //        name : "Anon",
+  //        Job : "graphic designer"
 
-      }
-    )
+  //     }
+  //   )
     
-   }
+  //  }
   useEffect(() => {
     handleReq
-    getUsers
+    // getUsers
   }, []);
 
   return (
@@ -38,7 +38,7 @@ function ReactCRUD() {
       <h2>{name}</h2>
       <h2>{job}</h2>
       <button onClick={handleReq}>Get</button>
-      <button onClick={getUsers}>get All users</button>
+      {/* <button onClick={getUsers}>get All users</button> */}
     </>
   );
 }
