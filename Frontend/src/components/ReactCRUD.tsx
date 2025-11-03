@@ -1,45 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function ReactCRUD() {
-  const [name, setName] = useState('');
-  const [job , setJob] = useState('')
 
-  const handleReq = async () => {
+  interface User {
+    id: number;
+    name: string;
+    Job: string;
+  }
+
+
+  const [users, setUsers] = useState<User[]>([]);
+  const [name, setName] = useState("");
+  const [job, setJob] = useState("");
+
+  const getUsers = async () => {
     try {
-      const URL = await axios.get("http://localhost:3000/api/users");
-      const res = URL.data
-       setName(res[0].name);
-      setJob(res[0].Job)
-     
+      const res = await axios.get("http://localhost:3000/api/users");
+      setUsers(res.data);
     } catch (err) {
-      console.log("The error is:", err);
+      console.error("Error fetching users:", err);
     }
   };
 
-  //  const getUsers = async ()=>{
-  //   axios.post('http://localhost:5000/api/users' ,
-  //     {
-  //        name : "Anon",
-  //        Job : "graphic designer"
+ 
+  const addUser = async () => {
+    try {
+      const res = await axios.post("http://localhost:3000/api/users", {
+        name: name || "default value",
+        Job: job || "you didnt enter",
+      });
+      console.log("User added:", res.data);
+      getUsers(); 
+    } catch (err) {
+      console.error("Error adding user:", err);
+    }
+  };
 
-  //     }
-  //   )
-    
-  //  }
   useEffect(() => {
-    handleReq()
-    // getUsers
+    getUsers();
   }, []);
 
   return (
-    <>
+    <div style={{ fontFamily: "sans-serif", padding: "20px" }}>
       <h1>Users</h1>
-      <h2>{name}</h2>
-      <h2>{job}</h2>
-      
-      {/* <button onClick={getUsers}>get All users</button> */}
-    </>
+
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Job"
+        value={job}
+        onChange={(e) => setJob(e.target.value)}
+      />
+      <button onClick={addUser}>Add User</button>
+
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            <strong>{user.name}</strong> — {user.Job}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
